@@ -47,17 +47,18 @@ For coding style practices, follow the [tidyverse style guide](https://style.tid
   
 ## Folder structure
 
-Generally, within a project folder, we have a subfolder called `analysis` where we are doing data analysis (and other sub-folders like `paper` where the paper draft is saved). Within the `analysis` subfolder, we have:
-* An .Rproj file for the project. (This can be created in RStudio, with File > New Project.)
-  * Note that if you always open the Project within RStudio before working (see "Project" in the upper right-hand corner of RStudio) then the `here` package will work for relative filepaths.
-* data - only raw data go in this folder
-* documentation - documentation about the data goes in this folder
-* proc - processed data sets go in this folder
-* results - results go in this folder
-  * figures - subfolder for figures
-  * tables - subfolder for tables
+Within your personal folder, create a project folder for each project (with a sensible name). This will contains;
+* * An .Rproj file for the project. (This can be created in RStudio, with File > New Project.)
+  * Note that if you always open the Project within RStudio before working (see "Project" in the upper right-hand corner of RStudio) then the `here` package will work for relative filepaths
+    * Use the same name as the project folder
 * scripts - code goes in this folder
-  * programs - a subfolder containing functions called by the analysis scripts (if applicable)
+* output - .txt files of results and figures go in this folder
+
+All data (both raw and processed) are stored on the VDI within the data folder (`W:/C6_Berglund/data`). 
+* The `rawdata` folder contains data as it was structured when received
+* The `procdata` folder contains project specific data that has been manipulated from the raw data
+* The name of each subfolder in `procdata` must match the name of a project folder in you personal folder
+
 
 ## Scripts structure
 
