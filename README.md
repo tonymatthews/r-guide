@@ -1,6 +1,6 @@
 # R Guide
 
-This guide is adapted from the excellent [R guide by skhiggins](https://github.com/skhiggins/R_guide). 
+This guide is adapted from the excellent [R guide by Sean Higgins](https://github.com/skhiggins/R_guide). 
 
 It provides instructions for using R on research projects. Its purpose is to to make code consistent, easier to read, and transparent within the CAUSALab @ KI.
 
