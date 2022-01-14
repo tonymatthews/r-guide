@@ -63,7 +63,7 @@ Create a project folder for each project (with a sensible name) within your pers
 All data (both raw and processed) are stored on the VDI within the data folder (`W:/C6_Berglund/data`). 
 * The `rawdata` folder contains data as it was structured when received
 * The `procdata` folder contains project specific data that has been manipulated from the raw data
-* The name of each subfolder in `procdata` must match the name of a project folder in you personal folder
+  * The name of each subfolder in `procdata` must match the name of a project folder in you personal folder
 
 
 ## Scripts structure
