@@ -52,9 +52,9 @@ You will have a personal folder within `W:/C6_Berglund`.
 ### Project folder
 
 Create a project folder for each project (with a sensible name) within your personal folder. This will contain;
-* * An .Rproj file for the project. (This can be created in RStudio, with File > New Project.)
+* An .Rproj file for the project. (This can be created in RStudio, with File > New Project.)
   * Note that if you always open the Project within RStudio before working (see "Project" in the upper right-hand corner of RStudio) then the `here` package will work for relative filepaths
-    * Use the same name as the project folder
+  * Use the same name as the project folder
 * scripts - code goes in this folder
 * output - .txt files of results and figures go in this folder
 
