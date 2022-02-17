@@ -41,21 +41,25 @@ The analysis and figure/table scripts should not change the data sets at all (no
 * Number scripts in the order in which they should be run: 00, 01, 02 etc.
 * The first script should always be a 00_master.R script (described below).
 * All other scripts should have the same name as the output they create.
+* Data preperation scripts should contain "cr_".
+* Scripts that write functions should contain "func_".
+* Analysis scripts should contain "an_".
+* Figure and table scripts should contain fig_/tab_
 
 #### Examples
-* Data preperation scripts should contain "cr_".
+* Data preperation ("cr_")
 	* 01_cr_eligible.R is the first script to be run.
 	* It wrangles data and creates a data frame of individuals eligible for the study.
 	* The name of the data frame the script creates is cr_eligible.
-* Scripts that write functions should contain "func_".
+* Functions ("func_")
 	* 02_func_ipw.R is the second script to be run.
 	* It creates inverse probability weights.
 	* The name of the function the script creates is func_ipw.
-* Analysis scripts should contain "an_".
+* Analysis ("an_")
 	* 03_an_ittanalysis is the third script to be run.
 	* It includes all code to run an intention-to-treat analysis.
 	* The name of the output (data frame, array, etc.) the script creates is an_ittanalysis.
-* Figure and table scripts should contain fig_/tab_
+* Figures and tables ("fig_/tab_")
 	*  04_tab_ittanalysis_1y is the fourth script to be run.
 	*  It includes all code to create a table for the 1 yr results from the intention-to-treat analysis. 
 	*  The name of the .txt file (stored in the output folder) the script creates is tab_ittanalysis_1y 
