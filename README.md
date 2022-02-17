@@ -28,7 +28,7 @@ All data (both raw and processed) are stored on the VDI within the data folder (
 ## Scripts structure
 
 ### Separating scripts
-Because we often work with large data sets and efficiency is important, I advocate separating the following three actions into different scripts:  
+Because we often work with large data sets and efficiency is important, I advocate separating the following four actions into different scripts:  
 
 1. Data preparation (cleaning and wrangling)
 2. Functions
