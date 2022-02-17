@@ -25,49 +25,6 @@ All data (both raw and processed) are stored on the VDI within the data folder (
   * The name of each subfolder in `procdata` must match the name of a project folder in you personal folder
 
 
-## Style
-
-For coding style practices, follow the [tidyverse style guide](https://style.tidyverse.org/).
-
-* While you should read the style guide and do your best to follow it, once you save the script you can use `styler::style_file()` to fix its formatting and ensure it adheres to the [tidyverse style guide](https://style.tidyverse.org/).
-  * Note: `styler::style_file()` overwrites files (if styling results in a change of the code to be formatted). The documentation strongly suggests to only style files that are under version control or to create a backup copy.
-  
-## Packages
-
-* Use `tidyverse` and/or `data.table` for wrangling data. 
-  * For big data (millions of observations), the efficiency advantages of `data.table` become important. 
-  * The efficiency advantages of `data.table` can be important even with smaller data sets for tasks like `rbind`ing, reshaping etc.
-* Use `stringr` for manipulating strings.
-* Use `lubridate` for working with dates.
-* Use `conflicted` to explicitly resolve namespace conflicts.
-  * `conflicted::conflict_scout()` displays namespace conflicts
-  * `conflicted::conflict_prefer()` declares the package to use in namespace conflicts, and the `conflict_prefer()` calls should be a block of code towards the top of the script, underneath the block of `library()` calls.
-* Never use `setwd()` or absolute file paths. Instead, use relative file paths with the `here` package.
-  * To avoid conflicts with the deprecated `lubridate::here()`, if using both packages in a script, specify `conflict_prefer("here", "here")`.
-* Use `assertthat::assert_that()` frequently to add programmatic sanity checks in the code.
-* Use pipes like `%>%` from `magrittr`. See [here](https://r4ds.had.co.nz/pipes.html) for more on using pipes. Other useful pipes are the compound assignment pipe `%<>%`, and the `%$%` exposition pipe.
-* Use `tabulator` for some common data wrangling tasks. 
-  * `tabulator::tab()` efficiently tabulates based on a categorical variable, sorts from most common to least common, and displays the proportion of observations with each value, as well as the cumulative proportion.
-  * `tabulator::tabcount()` counts the unique number of categories of a categorical variable or formed by a combination of categorical variables.
-  * `tabulator::quantiles()` produces quantiles of a variable. It is a wrapper for base R `quantile()` but is easier to use, especially within `data.table`s or `tibble`s.
-* Use `modelsummary` for formatting tables. 
-* `Hmisc::describe()` and `skimr::skim()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. Since they do not provide identical information, it might be best to run both.
-  * This can be used in conjunction with `sink()` to print the codebook to a text file. F
-  * or example:
-  ```r 
-  library(tidyverse)
-  library(Hmisc)
-  library(skimr)
-  library(here)
-  
-  # Write codebook to text file
-  sink(here("results", "mtcars_codebook.txt"))
-  mtcars %>% describe() %>% print() # print() needed if running script from command line
-  mtcars %>% skim() %>% print()
-  sink() # close the sink
-  ```
-  
-
 ## Scripts structure
 
 ### Separating scripts
@@ -152,6 +109,49 @@ Below is a brief example of a 00_master.R script.
   # OUTPUTS
   #  here("output", "tab_ittanalysis_1y.txt") 
   ```
+
+## Style
+
+For coding style practices, follow the [tidyverse style guide](https://style.tidyverse.org/).
+
+* While you should read the style guide and do your best to follow it, once you save the script you can use `styler::style_file()` to fix its formatting and ensure it adheres to the [tidyverse style guide](https://style.tidyverse.org/).
+  * Note: `styler::style_file()` overwrites files (if styling results in a change of the code to be formatted). The documentation strongly suggests to only style files that are under version control or to create a backup copy.
+  
+## Packages
+
+* Use `tidyverse` and/or `data.table` for wrangling data. 
+  * For big data (millions of observations), the efficiency advantages of `data.table` become important. 
+  * The efficiency advantages of `data.table` can be important even with smaller data sets for tasks like `rbind`ing, reshaping etc.
+* Use `stringr` for manipulating strings.
+* Use `lubridate` for working with dates.
+* Use `conflicted` to explicitly resolve namespace conflicts.
+  * `conflicted::conflict_scout()` displays namespace conflicts
+  * `conflicted::conflict_prefer()` declares the package to use in namespace conflicts, and the `conflict_prefer()` calls should be a block of code towards the top of the script, underneath the block of `library()` calls.
+* Never use `setwd()` or absolute file paths. Instead, use relative file paths with the `here` package.
+  * To avoid conflicts with the deprecated `lubridate::here()`, if using both packages in a script, specify `conflict_prefer("here", "here")`.
+* Use `assertthat::assert_that()` frequently to add programmatic sanity checks in the code.
+* Use pipes like `%>%` from `magrittr`. See [here](https://r4ds.had.co.nz/pipes.html) for more on using pipes. Other useful pipes are the compound assignment pipe `%<>%`, and the `%$%` exposition pipe.
+* Use `tabulator` for some common data wrangling tasks. 
+  * `tabulator::tab()` efficiently tabulates based on a categorical variable, sorts from most common to least common, and displays the proportion of observations with each value, as well as the cumulative proportion.
+  * `tabulator::tabcount()` counts the unique number of categories of a categorical variable or formed by a combination of categorical variables.
+  * `tabulator::quantiles()` produces quantiles of a variable. It is a wrapper for base R `quantile()` but is easier to use, especially within `data.table`s or `tibble`s.
+* Use `modelsummary` for formatting tables. 
+* `Hmisc::describe()` and `skimr::skim()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. Since they do not provide identical information, it might be best to run both.
+  * This can be used in conjunction with `sink()` to print the codebook to a text file. F
+  * or example:
+  ```r 
+  library(tidyverse)
+  library(Hmisc)
+  library(skimr)
+  library(here)
+  
+  # Write codebook to text file
+  sink(here("results", "mtcars_codebook.txt"))
+  mtcars %>% describe() %>% print() # print() needed if running script from command line
+  mtcars %>% skim() %>% print()
+  sink() # close the sink
+  ```
+ 
 
 ## Graphing
 
