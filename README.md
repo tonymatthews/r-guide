@@ -74,8 +74,9 @@ For coding style practices, follow the [tidyverse style guide](https://style.tid
 Because we often work with large data sets and efficiency is important, I advocate separating the following three actions into different scripts:  
 
 1. Data preparation (cleaning and wrangling)
-2. Analysis (regressions etc.)
-3. Production of figures and tables
+2. Functions
+3. Analysis (regressions etc.)
+4. Production of figures and tables
     
 The analysis and figure/table scripts should not change the data sets at all (no pivoting from wide to long or adding new variables); all changes to the data should be made in the data cleaning scripts. The figure/table scripts should not run the regressions or perform other analysis; that should be done in the analysis scripts. This way, if you need to add a robustness check, you don't necessarily have to rerun all the data cleaning code (unless the robustness check requires defining a new variable). If you need to make a formatting change to a figure, you don't have to rerun all the analysis code (which can take a while to run on large data sets).
 
@@ -83,21 +84,30 @@ The analysis and figure/table scripts should not change the data sets at all (no
 * Number scripts in the order in which they should be run: 00, 01, 02 etc.
 * The first script should always be a 00_master.R script (described below).
 * All other scripts should have the same name as the output they create.
+
+#### Examples
 * Data preperation scripts should contain "cr_".
-	* e.g., 01_cr_eligible.R is the first script to be run.
+	* 01_cr_eligible.R is the first script to be run.
 	* It wrangles data and creates a data frame of individuals eligible for the study.
-	* The name of the data frame is cr_eligible.
+	* The name of the data frame created by the script is cr_eligible.
+* Scripts that write functions should contain "func_".
+	* 02_func_ipw.R is the second script to be run.
+	* It created inverse probability weights.
+	* The name of the function created by the script is func_ipw.
 * Analysis scripts should contain "an_".
-	*
+	* 03_an_ittanalysis is the third script to be run.
+	* It includes all code to run an intention-to-treat analysis.
+	* The name of the output (data frame, array, etc.) created by the script is an_ittanalysis.
 * Figure and table scripts should contain fig_/tab_
-	*  
-* Because a project often uses multiple data sources, I usually include a brief description of the data source being used as the first part of the script name (in the example below, `ex` describes the data source), followed by a description of the action being done (e.g. `dataprep`, `reg`, etc.), with each component of the script name separated by an underscore (`_`).
+	*  04_tab_ittanalysis_1y is the fourth script to be run.
+	*  It includes all code to create a table for the 1 yr results from the intention-to-treat analysis. 
+	*  The name of the .txt file (stored in the output folder) created by the code is tab_ittanalysis_1y 
 
-### 00_run.R script 
-Keep a "run" script, 00_run.R that lists each script in the order they should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run `00_run.R` to run the entire analysis from raw data to final results (although this may be infeasible for some projects, e.g. one with multiple confidential data sets that can only be accessed on separate servers).
-* Also include objects that can be set to 0 or 1 to only run some of the scripts from the 00_run.R script (see the example below).
+### 00_master.R script 
+Keep a "master" script, 00_master.R that lists each script in the order they should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run `00_master.R` to run the entire analysis from raw data to final results.
+* Also include objects that can be set to 0 or 1 to only run some of the scripts from the 00_master.R script (see the example below).
 
-Below is a brief example of a 00_run.R script. <!-- (Note that you might replace scripts 03 and 04 with .Rmd files depending on how you want to present the results.) -->
+Below is a brief example of a 00_master.R script. 
   
   ```r
   # Run script for example project
@@ -107,40 +117,40 @@ Below is a brief example of a 00_run.R script. <!-- (Note that you might replace
 
   # PRELIMINARIES -------------------------------------------------------------
   # Control which scripts run
-  run_01_ex_dataprep <- 1
-  run_02_ex_reg      <- 1
-  run_03_ex_table    <- 1
-  run_04_ex_graph    <- 1
+  run_01_cr_eligible <- 1
+  run_02_func_ipw     <- 1
+  run_03_an_ittanalysis   <- 1
+  run_04_tab_ittanalysis_1y    <- 1
   
   # RUN SCRIPTS ---------------------------------------------------------------
   
-  # Read and clean example data
-  if (run_01_ex_dataprep) source(here("scripts", "01_ex_dataprep.R"), encoding = "UTF-8")
+  # Read data and create eligible patients
+  if (run_01_cr_eligible) source(here("scripts", "01_cr_eligible.R"), encoding = "UTF-8")
   # INPUTS
   #  here("data", "example.csv") # raw data from XYZ source
   # OUTPUTS
-  #  here("proc", "example.rds") # cleaned 
+  #  cr_eligible data frame
   
-  # Regress Y on X in example data
-  if (run_02_ex_reg) source(here("scripts", "02_ex_reg.R"), encoding = "UTF-8")
+  # Create a function that estimates IP weights
+  if (run_02_func_ipw) source(here("scripts", "02_func_ipw.R"), encoding = "UTF-8")
   # INPUTS
-  #  here("proc", "example.rds") # 01_ex_dataprep.R
+  #  none
   # OUTPUTS 
-  #  here("proc", "ex_fixest.rds") # fixest object from feols regression
+  #  func_ipw function is created
   
-  # Create table of regression results
-  if (run_03_ex_table) source(here("scripts", "03_ex_table.R"), encoding = "UTF-8")
+  # Run ITT analysis
+  if (run_03_an_ittanalysis) source(here("scripts", "03_an_ittanalysis.R"), encoding = "UTF-8")
   # INPUTS 
-  #  here("proc", "ex_fixest.rds") # 02_ex_reg.R
+  #  cr_eligible dataframe & func_ipw
   # OUTPUTS
-  #  here("results", "tables", "ex_fixest_table.tex") # tex of table for paper
+  #  an_ittanalysis dataframe
   
-  # Create scatterplot of Y and X with local polynomial fit
-  if (run_04_ex_graph) source(here("scripts", "04_ex_graph.R"), encoding = "UTF-8")
+  # Create table for 1 yr ITT results
+  if (run_04_tab_ittanalysis_1y) source(here("scripts", "04_tab_ittanalysis_1y.R"), encoding = "UTF-8")
   # INPUTS
-  #  here("proc", "example.rds") # 01_ex_dataprep.R
+  #  an_ittanalysis dataframe
   # OUTPUTS
-  #  here("results", "figures", "ex_scatter.eps") # figure
+  #  here("output", "tab_ittanalysis_1y.txt") 
   ```
 
 ## Graphing
