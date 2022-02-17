@@ -15,7 +15,7 @@ Create a project folder for each project (with a sensible name) within your pers
   * Note that if you always open the Project within RStudio before working (see "Project" in the upper right-hand corner of RStudio) then the `here` package will work for relative filepaths
   * Use the same name as the project folder
 * scripts folder - code goes in this folder
-* output folder - .txt files of results and figures go in this folder
+* output folder - .txt files of tables and .png files of figures go in this folder
 
 ### Data
 
