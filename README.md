@@ -14,8 +14,8 @@ Create a project folder for each project (with a sensible name) within your pers
 * An .Rproj file for the project. (This can be created in RStudio, with File > New Project.)
   * Note that if you always open the Project within RStudio before working (see "Project" in the upper right-hand corner of RStudio) then the `here` package will work for relative filepaths
   * Use the same name as the project folder
-* scripts - code goes in this folder
-* output - .txt files of results and figures go in this folder
+* scripts folder - code goes in this folder
+* output folder - .txt files of results and figures go in this folder
 
 ### Data
 
@@ -52,7 +52,8 @@ For coding style practices, follow the [tidyverse style guide](https://style.tid
   * `tabulator::quantiles()` produces quantiles of a variable. It is a wrapper for base R `quantile()` but is easier to use, especially within `data.table`s or `tibble`s.
 * Use `modelsummary` for formatting tables. 
 * `Hmisc::describe()` and `skimr::skim()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. Since they do not provide identical information, it might be best to run both.
-  * This can be used in conjunction with `sink()` to print the codebook to a text file. For example:
+  * This can be used in conjunction with `sink()` to print the codebook to a text file. F
+  * or example:
   ```r 
   library(tidyverse)
   library(Hmisc)
@@ -70,17 +71,26 @@ For coding style practices, follow the [tidyverse style guide](https://style.tid
 ## Scripts structure
 
 ### Separating scripts
-Because we often work with large data sets and efficiency is important, I advocate (nearly) always separating the following three actions into different scripts:  
+Because we often work with large data sets and efficiency is important, I advocate separating the following three actions into different scripts:  
 
-1. Data preparation (cleaning and wrangling)  
-2. Analysis (e.g. regressions)
+1. Data preparation (cleaning and wrangling)
+2. Analysis (regressions etc.)
 3. Production of figures and tables
     
-The analysis and figure/table scripts should not change the data sets at all (no pivoting from wide to long or adding new variables); all changes to the data should be made in the data cleaning scripts. The figure/table scripts should not run the regressions or perform other analysis; that should be done in the analysis scripts. This way, if you need to add a robustness check, you don't necessarily have to rerun all the data cleaning code (unless the robustness check requires defining a new variable). If you need to make a formatting change to a figure, you don't have to rerun all the analysis code (which can take awhile to run on large data sets).
+The analysis and figure/table scripts should not change the data sets at all (no pivoting from wide to long or adding new variables); all changes to the data should be made in the data cleaning scripts. The figure/table scripts should not run the regressions or perform other analysis; that should be done in the analysis scripts. This way, if you need to add a robustness check, you don't necessarily have to rerun all the data cleaning code (unless the robustness check requires defining a new variable). If you need to make a formatting change to a figure, you don't have to rerun all the analysis code (which can take a while to run on large data sets).
 
 ### Naming scripts
-* Include a 00_run.R script (described below).
-* Number scripts in the order in which they should be run, starting with 01.
+* Number scripts in the order in which they should be run: 00, 01, 02 etc.
+* The first script should always be a 00_master.R script (described below).
+* All other scripts should have the same name as the output they create.
+* Data preperation scripts should contain "cr_".
+	* e.g., 01_cr_eligible.R is the first script to be run.
+	* It wrangles data and creates a data frame of individuals eligible for the study.
+	* The name of the data frame is cr_eligible.
+* Analysis scripts should contain "an_".
+	*
+* Figure and table scripts should contain fig_/tab_
+	*  
 * Because a project often uses multiple data sources, I usually include a brief description of the data source being used as the first part of the script name (in the example below, `ex` describes the data source), followed by a description of the action being done (e.g. `dataprep`, `reg`, etc.), with each component of the script name separated by an underscore (`_`).
 
 ### 00_run.R script 
