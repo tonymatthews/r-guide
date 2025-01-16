@@ -24,8 +24,22 @@ All data (both raw and processed) are stored on the VDI within the data folder (
 * The `procdata` folder contains project specific data that has been manipulated from the raw data
   * The name of each subfolder in `procdata` must match the name of a project folder in you personal folder
 
+## Using R packages on the VDI
 
-## Scripts structure
+As the VDI is not connected to the internet for security purposes, R cannot directly access the CRAN to install packages. IT has, therefore, set up a system that allows us to access the CRAN as normal, with a few additional steps. 
+* In your personal folder, create a folder called `r-library` and an R script called `r-profile.R`.
+* In the `r-profile.R` script include the following two lines of code:
+
+  ```r
+  options(repos = "HTTP://nexus.ki.se/repository/cran.r-project.org")
+  .libPaths("W:/C6_Berglund/YOUR_PERSONAL_FOLDER/r-library")
+  ```
+
+* Every time you start a new R session, run the `r-profile.R` script.
+* You can then access the CRAN and install packages as normal using the `install.packages()` function. All installed packages will be stored in your `r-library` folder, and R will load packages from this folder when you use the `library()` function. 
+
+
+## Script structure
 
 ### Separating scripts
 Because we often work with large data sets and efficiency is important, I advocate separating the following four actions into different scripts:  
